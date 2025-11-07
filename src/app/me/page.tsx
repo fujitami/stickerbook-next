@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 
 export default function MePage() {
-  const [me, setMe] = useState<any>(null);
+  interface Me {
+    email: string;
+    [key: string]: unknown;
+  }
+  const [me, setMe] = useState<Me | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
