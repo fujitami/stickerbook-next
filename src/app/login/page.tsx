@@ -10,9 +10,13 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await apiFetch("/login", {
+    const res = await apiFetch("/users/sign_in", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: { email, password },
+      }),
+      credentials: "include",
     });
     if (res.ok) {
       setMessage("ログインに成功しました");
