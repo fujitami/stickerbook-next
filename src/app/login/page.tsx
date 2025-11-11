@@ -12,9 +12,11 @@ export default function LoginPage() {
     e.preventDefault();
     const res = await apiFetch("/users/sign_in", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user: { email, password },
       }),
+      credentials: "include",
     });
     if (res.ok) {
       setMessage("ログインに成功しました");
