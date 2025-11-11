@@ -21,8 +21,8 @@ export default function LoginPage() {
     if (res.ok) {
       setMessage("ログインに成功しました");
     } else {
-      const err = await res.json();
-      setMessage(`エラー: ${err.errors || res.statusText}`);
+      const err = await res.json().catch(() => ({}));
+      setMessage(`エラー: ${err.error || res.statusText}`);
     }
   };
 
