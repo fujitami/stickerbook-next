@@ -29,7 +29,7 @@ export default async function Home() {
         <ul className="grid grid-cols-2 gap-6 list-none">
           {stickers.map((s) => (
             <Link href={`/stickers/${s.id}`} key={s.id}>
-              <li key={s.id} className="bg-white rounded-2xl shadow p-4">
+              <li key={s.id} className="bg-black rounded-2xl shadow p-4">
                 {s.image_url && (
                   <Image
                     src={s.image_url}
@@ -40,7 +40,6 @@ export default async function Home() {
                   />
                 )}
                 <p className="font-medium">{s.caption}</p>
-                <p className="text-slate-600 text-sm">by {s.user_name}</p>
               </li>
             </Link>
           ))}
