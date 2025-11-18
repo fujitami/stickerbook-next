@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "@/components/Header";
 
 export default function CreateStickerPage() {
   const router = useRouter();
@@ -47,31 +48,34 @@ export default function CreateStickerPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">シール追加</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="このシールについて説明"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          className="border rounded w-full p-2"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-          className="w-full"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          {loading ? "送信中..." : "作成"}
-        </button>
-        {error && <p className="text-red-500">{error}</p>}
-      </form>
-    </div>
+    <>
+      <Header />
+      <div className="max-w-md mx-auto p-4">
+        <h1 className="text-xl font-bold mb-4">シール追加</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="このシールについて説明"
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            className="border rounded w-full p-2"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files?.[0] || null)}
+            className="w-full"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            {loading ? "送信中..." : "作成"}
+          </button>
+          {error && <p className="text-red-500">{error}</p>}
+        </form>
+      </div>
+    </>
   );
 }

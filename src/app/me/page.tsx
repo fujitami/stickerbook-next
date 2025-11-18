@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { apiFetch } from "@/lib/api";
+import Header from "@/components/Header";
+import Link from "next/link";
 
 type Sticker = {
   id: number;
@@ -43,38 +45,53 @@ export default function MyStickersPage() {
   );
 
   return (
-    <main className="max-w-3xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">わたしのシール帳</h1>
+    <>
+      <Header />
 
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
-          className="px-3 py-1 bg-black border rounded hover:bg-gray-300"
-        >
-          {sortOrder === "desc" ? "新しい順" : "古い順"}
-        </button>
-      </div>
+      <main className="max-w-3xl mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">わたしのシール帳</h1>
 
-      {sorted.length === 0 ? (
-        <p>まだ投稿がありません。</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {sorted.map((s) => (
-            <div key={s.id} className="text-center">
-              {s.image_url && (
-                <Image
-                  src={s.image_url}
-                  alt={s.caption}
-                  width={200}
-                  height={200}
-                  className="rounded-lg mb-2 object-cover"
-                />
-              )}
-              <p className="text-sm">{s.caption}</p>
-            </div>
-          ))}
+        <div className="mb-6">
+          <Link
+            href="/create"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            シールを投稿する
+          </Link>
         </div>
-      )}
-    </main>
+
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
+            className="px-3 py-1 bg-black border rounded hover:bg-gray-300"
+          >
+            {sortOrder === "desc" ? "新しい順" : "古い順"}
+          </button>
+        </div>
+
+        {sorted.length === 0 ? (
+          <p>まだ投稿がありません。</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {sorted.map((s) => (
+              <Link href={`/stickers/${s.sticker_id}`} key={s.id}>
+                <div key={s.id} className="text-center">
+                  {s.image_url && (
+                    <Image
+                      src={s.image_url}
+                      alt={s.caption}
+                      width={200}
+                      height={200}
+                      className="rounded-lg mb-2 object-cover"
+                    />
+                  )}
+                  <p className="text-sm">{s.caption}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </main>
+    </>
   );
 }

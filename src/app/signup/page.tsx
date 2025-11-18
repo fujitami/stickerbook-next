@@ -2,20 +2,28 @@
 
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await apiFetch("/signup", {
+    const res = await apiFetch("/users", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: { email, password, password_confirmation },
+      }),
+      credentials: "include",
     });
     if (res.ok) {
       setMessage("サインアップに成功しました！");
+      router.push("/me");
     } else {
       const err = await res.json();
       setMessage(`エラー: ${err.errors || res.statusText}`);
@@ -40,6 +48,13 @@ export default function SignupPage() {
         placeholder="パスワード"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className="border p-2 rounded"
+      />
+      <input
+        type="password"
+        placeholder="パスワード確認"
+        value={password_confirmation}
+        onChange={(e) => setPasswordConfirmation(e.target.value)}
         className="border p-2 rounded"
       />
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">

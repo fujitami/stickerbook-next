@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Header from "@/components/Header";
+import Link from "next/link";
 
 type Sticker = {
   id: number;
@@ -10,6 +12,7 @@ type Sticker = {
 export default async function Home() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/stickers`, {
     cache: "no-store", // SSRで常に最新を取得
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -19,25 +22,30 @@ export default async function Home() {
   const stickers: Sticker[] = await res.json();
 
   return (
-    <main className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">おたがいシール帳</h1>
-      <ul className="grid grid-cols-2 gap-6 list-none">
-        {stickers.map((s) => (
-          <li key={s.id} className="bg-white rounded-2xl shadow p-4">
-            {s.image_url && (
-              <Image
-                src={s.image_url}
-                alt={s.caption}
-                width={200}
-                height={200}
-                className="rounded-xl mb-2 object-cover"
-              />
-            )}
-            <p className="font-medium">{s.caption}</p>
-            <p className="text-slate-600 text-sm">by {s.user_name}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <Header />
+
+      <main className="max-w-2xl mx-auto p-6">
+        <h1 className="text-3xl font-bold mb-6">おたがいシール帳</h1>
+        <ul className="grid grid-cols-2 gap-6 list-none">
+          {stickers.map((s) => (
+            <Link href={`/stickers/${s.id}`} key={s.id}>
+              <li key={s.id} className="bg-black rounded-2xl shadow p-4">
+                {s.image_url && (
+                  <Image
+                    src={s.image_url}
+                    alt={s.caption}
+                    width={200}
+                    height={200}
+                    className="rounded-xl mb-2 object-cover"
+                  />
+                )}
+                <p className="font-medium">{s.caption}</p>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      </main>
+    </>
   );
 }
