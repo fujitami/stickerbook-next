@@ -12,6 +12,7 @@ type Sticker = {
 export default async function Home() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/stickers`, {
     cache: "no-store", // SSRで常に最新を取得
+    credentials: "include",
   });
 
   if (!res.ok) {
