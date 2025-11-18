@@ -51,6 +51,15 @@ export default function MyStickersPage() {
       <main className="max-w-3xl mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">わたしのシール帳</h1>
 
+        <div className="mb-6">
+          <Link
+            href="/create"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            シールを投稿する
+          </Link>
+        </div>
+
         <div className="flex justify-end mb-4">
           <button
             onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
