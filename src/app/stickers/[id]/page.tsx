@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Header from "@/components/Header";
 import Comments from "./Comments";
+import OwnershipButton from "./OwnershipButton";
 
 export default async function StickerDetail({
   params,
@@ -17,20 +19,29 @@ export default async function StickerDetail({
   if (!res.ok) return <p>データの取得に失敗しました。</p>;
 
   const sticker = await res.json();
+  console.log("StickerDetail sticker", sticker);
 
   return (
-    <main className="max-w-md mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">{sticker.caption}</h1>
-      {sticker.image_url && (
-        <Image
-          src={sticker.image_url}
-          alt={sticker.caption}
-          width={400}
-          height={400}
-          className="rounded-lg mb-4"
+    <>
+      <Header />
+      <main className="max-w-md mx-auto p-4">
+        <h1 className="text-xl font-bold mb-4">{sticker.caption}</h1>
+        {sticker.image_url && (
+          <Image
+            src={sticker.image_url}
+            alt={sticker.caption}
+            width={400}
+            height={400}
+            className="rounded-lg mb-4"
+          />
+        )}
+        <OwnershipButton
+          stickerId={sticker.id}
+          owned={sticker.owned}
+          ownershipId={sticker.ownership_id}
         />
-      )}
-      <Comments stickerId={sticker.id} />
-    </main>
+        <Comments stickerId={sticker.id} />
+      </main>
+    </>
   );
 }
